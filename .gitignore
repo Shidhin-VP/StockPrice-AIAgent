@@ -1,0 +1,29 @@
+# Ignore Terraform working directory
+.terraform/
+
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.backup
+
+# Ignore Terraform lock file (optional but recommended to ignore in most cases unless managing team state)
+.terraform.lock.hcl
+
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Backup/temp files
+*.bak
+*.tmp

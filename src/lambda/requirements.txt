@@ -1,0 +1,5 @@
+langgraph
+langgraph_supervisor
+langchain
+langchain_aws
+yfinance
