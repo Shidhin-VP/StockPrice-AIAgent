@@ -2,17 +2,6 @@ provider "aws" {
   region ="us-east-1"
 }
 
-# variable "NeedtoBuild" {
-#   description = "Trigger build? Yes or No"
-#   type=string
-# }
-
-# resource "null_resource" "rebuild_program" {
-#   triggers={
-#     build=var.NeedtoBuild
-#   }
-# }
-
 resource "aws_iam_role" "StockLambdaRole" {
   name = "StockAIAgent_LambdaRole"
   description = "Role for Lambda Service for the StockPriceAIAgent Project"

@@ -5,6 +5,7 @@ from langchain.tools import tool
 import yfinance as yf
 import traceback
 import json
+from datetime import datetime
 
 Rstatus=""
 Astatus=""
@@ -24,15 +25,44 @@ def retrieve_realtime_stock_price(ticker:str)->str:
         Rstatus=f"Error fetching stock price for {ticker}: {str(e)}"
         return Rstatus
     
-@tool(description="Add to Digits given by user")
-def add_digits(digit1:str, digit2:str)->str:
-    global Astatus
+@tool(description="Fetches the Stock Price of a company/ticker the user requests for a period of time FROM and TO. If the user does not give an interval, use '1d' as default.")
+def Retrieve_historical_stock_price(ticker: str, start: str, end: str, interval: str = "1d") -> str:
+    """
+    Fetch historical stock prices for a given ticker symbol between a date range. If the user is asking for a period of time, give all the values don't stop if they ask for 1 year also give the entire values fully in a well structured manner, like tables.
+    
+    Parameters:
+    - ticker (str): Ticker symbol (e.g., 'AAPL')
+    - start (str): Start date in 'YYYY-MM-DD' format
+    - end (str): End date in 'YYYY-MM-DD' format
+    - interval (str): Data interval (default is '1d'). Valid intervals: 1m, 2m, 5m, 15m, 1d, 1wk, 1mo
+    
+    Returns:
+    - str: Summary of historical prices
+    """
     try:
-        Astatus=f"Adding {digit1} and {digit2}"
-        return str(int(digit1)+int(digit2))
+        stock = yf.Ticker(ticker.upper())
+        hist = stock.history(start=start, end=end, interval=interval)
+
+        if hist.empty:
+            return f"No historical data found for {ticker.upper()} from {start} to {end} with interval '{interval}'."
+
+        # Format the first few rows as a string
+        hist_reset = hist.reset_index()
+        hist_str = hist_reset[["Date", "Open", "High", "Low", "Close"]].head(5).to_string(index=False)
+        #return f"Historical prices for {ticker.upper()} from {start} to {end} (interval: {interval}):\n{hist_str}"
+        return hist_str
     except Exception as e:
-        Astatus=f"Error Adding {digit1} and {digit2}"
-        return Astatus
+        return f"Error fetching historical stock data for {ticker.upper()}: {str(e)}"
+
+    
+@tool(description="Tool which will return real tie datetime")
+def get_current_datetime()->str:
+    """
+    Get the current date and time in a human-readable format.
+    """
+
+    now=datetime.now()
+    return now
 
 llm=ChatBedrockConverse(
     #model="us.meta.llama4-scout-17b-instruct-v1:0",
@@ -41,30 +71,10 @@ llm=ChatBedrockConverse(
     temperature=0.7
 )
 
-# math_assistant=create_react_agent(
-#     model=llm,
-#     tools=[add_digits],
-#     prompt="You find the sum of numbers when user ask",
-#     name="math_assistant"
-# )
-
-# stock_price_assistant=create_react_agent(
-#     model=llm,
-#     tools=[retrieve_realtime_stock_price],
-#     prompt="You get the real time stock price of user asked Company or tickers ex: Apple (AAPL) Google etc.",
-#     name="stock_price_assistant"
-# )
-
-# supervisor=create_supervisor(
-#     agents=[math_assistant,stock_price_assistant],
-#     model=llm,
-#     prompt=("You are a AI Assistant who help User with stock price fetching and doing mathematical calculations")
-# ).compile()
-
 agent=create_react_agent(
     model=llm,
-    tools=[retrieve_realtime_stock_price,add_digits],
-    prompt="You are an AI Agent, understand the user question and only answer in plain english on how they want as a human do, and don't give tags like <thinking> etc. Just simple answer for what the user ask even if it's complex"
+    tools=[retrieve_realtime_stock_price,Retrieve_historical_stock_price,get_current_datetime],
+    prompt="You are a AI Assistant that will give user the Real-Time and Historical Stock Prices of Companies/Tickers as per user needs, You will only response in plain English and Human Understandable Format and in Times New Roman Font if possible, keep the font human understandable. Also Warn Them as this is about price saying (IMPORTANT) **You are just a help but the user needs to understand and research before any purchace or financial process**"
 )
 
 def lambda_handler(event,context):
@@ -72,13 +82,12 @@ def lambda_handler(event,context):
         body=json.loads(event['body'])
         prompt=body.get('prompt')
         print("Prompt: ",prompt)
-        result=agent.invoke({"messages":[{"role":"user","content":f"When answer dont give any </thinking> just like a human do answer me in plain english as human does with this prompt: {prompt}"}]})
+        result=agent.invoke({"messages":[{"role":"user","content":prompt}]})
         if hasattr(result, '__iter__') and not isinstance(result, dict):
             for chunk in result:
                 if chunk:
                     final_answer += chunk
         else:
-            # Non-streaming: extract final message content
             final_answer = result["messages"][-1].content
         return{
             "statusCode":200,

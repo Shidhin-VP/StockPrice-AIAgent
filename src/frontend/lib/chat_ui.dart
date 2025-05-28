@@ -19,6 +19,11 @@ class _ChatAppState extends State<ChatApp> {
     print('URL: $url');
     final response = await http.post(
       postURL,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',  // Allows all origins
+        //'Authorization': 'Bearer your-token',  // If using JWT authentication
+      },
       body: jsonEncode({'prompt': m.text}),
     );
     if (response.statusCode == 200) {

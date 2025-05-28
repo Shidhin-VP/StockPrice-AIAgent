@@ -8,6 +8,8 @@
 # Ignore Terraform lock file (optional but recommended to ignore in most cases unless managing team state)
 .terraform.lock.hcl
 
+#Removing URL Access
+url.txt
 
 # Python cache
 __pycache__/

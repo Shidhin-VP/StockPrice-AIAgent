@@ -1,15 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-stockaiagentamplify-dev-e915b-authRole",
-      "UnauthRoleArn": "arn:aws:iam::463470954701:role/amplify-stockaiagentamplify-dev-e915b-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::463470954701:role/amplify-stockaiagentamplify-dev-e915b-authRole",
+      "AuthRoleName": "amplify-stockaiagentamplify-dev-1899c-authRole",
+      "UnauthRoleArn": "arn:aws:iam::463470954701:role/amplify-stockaiagentamplify-dev-1899c-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::463470954701:role/amplify-stockaiagentamplify-dev-1899c-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-stockaiagentamplify-dev-e915b-deployment",
-      "UnauthRoleName": "amplify-stockaiagentamplify-dev-e915b-unauthRole",
-      "StackName": "amplify-stockaiagentamplify-dev-e915b",
-      "StackId": "arn:aws:cloudformation:us-east-1:463470954701:stack/amplify-stockaiagentamplify-dev-e915b/2ae7a2b0-3b63-11f0-950d-0efb7b77b54b",
-      "AmplifyAppId": "d9d85gtn6h55y"
+      "DeploymentBucketName": "amplify-stockaiagentamplify-dev-1899c-deployment",
+      "UnauthRoleName": "amplify-stockaiagentamplify-dev-1899c-unauthRole",
+      "StackName": "amplify-stockaiagentamplify-dev-1899c",
+      "StackId": "arn:aws:cloudformation:us-east-1:463470954701:stack/amplify-stockaiagentamplify-dev-1899c/5d452f40-3b6b-11f0-b704-0affd1a5d9e9",
+      "AmplifyAppId": "d1bhmichvffc33"
     }
   }
 }
