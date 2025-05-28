@@ -3,9 +3,8 @@ import requests
 import re
 import os
 from pathlib import Path
-from decouple import config
 
-S_accessCode=config('access_code')
+S_accessCode=st.secrets['access_code']
 print(f"SAccess: {S_accessCode}")
 
 # --- Session State Setup ---
