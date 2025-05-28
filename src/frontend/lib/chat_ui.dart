@@ -28,7 +28,8 @@ class _ChatAppState extends State<ChatApp> {
     if (response.statusCode == 200) {
       print("Response from testing $response and mText is ${m.text}");
       final data = jsonDecode(response.body);
-      final botReply = data['AI Result'];
+      var botReply = data['AI Result'];
+      botReply = botReply.replaceAll(RegExp(r'<thinking>.*?<\/thinking>', dotAll: true), '').trim();
       final ChatMessage reply = ChatMessage(
         user: _bot,
         createdAt: DateTime.now(),
