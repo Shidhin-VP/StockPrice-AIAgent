@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 import re
 import os
-from dotenv import load_dotenv
 from pathlib import Path
 from decouple import config
 
