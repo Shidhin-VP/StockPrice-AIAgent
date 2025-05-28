@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 
-env_path=Path(__file__).resolve().parent.parent/".env"
+env_path=Path(__file__).resolve().parent.parent.parent/".env"
+print(env_path)
 load_dotenv(dotenv_path=env_path)
 
 S_accessCode=os.getenv('access_code')
