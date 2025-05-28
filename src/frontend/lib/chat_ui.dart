@@ -21,8 +21,7 @@ class _ChatAppState extends State<ChatApp> {
       postURL,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',  // Allows all origins
-        //'Authorization': 'Bearer your-token',  // If using JWT authentication
+        'Access-Control-Allow-Origin': '*',
       },
       body: jsonEncode({'prompt': m.text}),
     );
