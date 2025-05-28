@@ -4,13 +4,16 @@ import re
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+from decouple import config
 
 
-env_path=Path(__file__).resolve().parent.parent.parent/".env"
-print(env_path)
-load_dotenv(dotenv_path=env_path)
+# env_path=Path(__file__).resolve().parent.parent.parent/"hw.py"
+# # print(env_path)
+# # load_dotenv(dotenv_path=env_path)
+# print(env_path)
 
-S_accessCode=os.getenv('access_code')
+#S_accessCode=os.getenv('access_code')
+S_accessCode=config('access_code')
 print(f"SAccess: {S_accessCode}")
 
 # --- Session State Setup ---
