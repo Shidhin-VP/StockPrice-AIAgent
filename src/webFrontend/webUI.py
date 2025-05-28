@@ -1,6 +1,16 @@
 import streamlit as st
 import requests
 import re
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+
+env_path=Path(__file__).resolve().parent.parent/".env"
+load_dotenv(dotenv_path=env_path)
+
+S_accessCode=os.getenv('access_code')
+print(f"SAccess: {S_accessCode}")
 
 # --- Session State Setup ---
 if "authenticated" not in st.session_state:
@@ -20,7 +30,7 @@ if not st.session_state.authenticated:
     st.title("🔐 Enter Access Code to Continue")
     access_code = st.text_input("Access Code", type="password")
     if st.button("Unlock"):
-        if access_code == "Tech 42 - ShidhinVP":  
+        if access_code == S_accessCode:  
             st.session_state.authenticated = True
             st.success("Access granted. Click Unlock again to be redirected")
         else:

@@ -9,7 +9,7 @@
 .terraform.lock.hcl
 
 #Removing URL Access
-url.txt
+.env
 
 # Python cache
 __pycache__/
